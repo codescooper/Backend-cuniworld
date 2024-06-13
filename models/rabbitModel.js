@@ -33,4 +33,41 @@ const addRabbit = async (name, gender, birth_date, breed, color) => {
   }
 };
 
-module.exports = { getAllRabbits, addRabbit };
+// Supprimer un lapin de la base de données
+const deleteRabbit = async (id) => {
+  try {
+    const result = await db.query(
+      "DELETE FROM rabbit WHERE id = $1 RETURNING *",
+      [id]
+    );
+    return result.rows[0];
+  } catch (error) {
+    console.error(
+      "Erreur lors de la suppression du lapin dans la base de données:",
+      error
+    );
+    throw new Error(
+      "Erreur lors de la suppression du lapin dans la base de données"
+    );
+  }
+};
+
+// Mettre à jour un lapin dans la base de données
+const updateRabbit = async (id, name, gender, birth_date, breed, color) => {
+  try {
+    const result = await db.query(
+      "UPDATE rabbit SET name = $1, gender = $2, birth_date = $3, breed = $4, color = $5 WHERE id = $6 RETURNING *",
+      [name, gender, birth_date, breed, color, id]
+    );
+    return result.rows[0];
+  } catch (error) {
+    console.error(
+      "Erreur lors de la mise à jour du lapin dans la base de données:",
+      error
+    );
+    throw new Error(
+      "Erreur lors de la mise à jour du lapin dans la base de données"
+    );
+  }
+};
+module.exports = { getAllRabbits, addRabbit, deleteRabbit, updateRabbit };
