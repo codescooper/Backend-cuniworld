@@ -1,4 +1,5 @@
 const rabbitModel = require("../models/rabbitModel");
+const weightModel = require('../models/weightModel');
 
 // Récupérer la liste des lapins
 const fetchRabbits = async () => {
@@ -50,4 +51,32 @@ const updateRabbit = async (id, name, gender, birth_date, breed, color) => {
     }
   };
 
-module.exports = { fetchRabbits, createRabbit, removeRabbit, updateRabbit };
+// Récupérer les poids d'un lapin
+const getRabbitWeights = async (rabbitId) => {
+  try {
+    const weights = await weightModel.getWeightsByRabbitId(rabbitId);
+    return weights;
+  } catch (error) {
+    console.error('Erreur lors de la sélection des poids du lapin service:', error);
+    throw new Error('Erreur lors de la sélection des poids du lapin service');
+  }
+};
+
+// Ajouter un nouveau poids au lapin
+const addWeight = async (rabbitId, date, weight) => {
+  try {
+    return await weightModel.addWeight(rabbitId, date, weight);
+  } catch (error) {
+    console.error('Erreur dans le service lors de l\'ajout du poids:', error);
+    throw error;
+  }
+};
+
+module.exports = { 
+  fetchRabbits, 
+  createRabbit, 
+  removeRabbit, 
+  updateRabbit, 
+  getRabbitWeights, 
+  addWeight, 
+};

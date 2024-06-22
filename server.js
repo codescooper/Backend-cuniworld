@@ -6,6 +6,7 @@ const {
   addRabbit,
   deleteRabbit,
   updateRabbit,
+  addWeight,
 } = require("./controllers/rabbitController");
 
 const {
@@ -36,6 +37,8 @@ app.get("/api/rabbits", getRabbits);
 app.post("/api/rabbits", addRabbit);
 app.delete("/api/rabbits/:id", deleteRabbit);
 app.put("/api/rabbits/:id", updateRabbit);
+//ajout d'un nouveau poids pour le lapin
+app.post("/api/rabbits/:id/weights", addWeight);
 
 // Gerer la table des taches
 app.get("/api/tasks", getTasks);

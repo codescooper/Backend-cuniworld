@@ -60,5 +60,28 @@ const updateRabbit = async (req, res) => {
     }
   };
 
+  const addWeight = async (req, res) => {
+    const { id } = req.params;
+    const { date, weight } = req.body;
+  
+    if (!date || !weight) {
+      return res.status(400).send('Date et poids sont nécessaires.');
+    }
+  
+    try {
+      const newWeight = await rabbitService.addWeight(id, date, weight);
+      res.status(201).json(newWeight);
+    } catch (error) {
+      console.error('Erreur dans le contrôleur lors de l\'ajout du poids:', error);
+      res.status(500).send('Erreur lors de l\'ajout du poids');
+    }
+  };
 
-module.exports = { getRabbits, addRabbit, deleteRabbit, updateRabbit };
+
+module.exports = { 
+  getRabbits,
+  addRabbit,
+  deleteRabbit,
+  updateRabbit,
+  addWeight
+ };
