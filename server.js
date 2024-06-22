@@ -1,7 +1,28 @@
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
-const { getRabbits, addRabbit, deleteRabbit, updateRabbit } = require("./controllers/rabbitController");
+const {
+  getRabbits,
+  addRabbit,
+  deleteRabbit,
+  updateRabbit,
+} = require("./controllers/rabbitController");
+
+const {
+  getTasks,
+  addTask,
+  deleteTask,
+  updateTask,
+} = require("./controllers/taskController");
+
+const {
+  getAllUsers,
+  addUser,
+  deleteUser,
+  updateUser,
+  register,
+  login,
+} = require("./controllers/userController");
 
 const app = express();
 
@@ -10,11 +31,26 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // Routes
-    // Gerer la table rabbit
+// Gerer la table rabbit
 app.get("/api/rabbits", getRabbits);
-app.post('/api/rabbits', addRabbit);
-app.delete('/api/rabbits/:id', deleteRabbit);
-app.put('/api/rabbits/:id', updateRabbit);
+app.post("/api/rabbits", addRabbit);
+app.delete("/api/rabbits/:id", deleteRabbit);
+app.put("/api/rabbits/:id", updateRabbit);
+
+// Gerer la table des taches
+app.get("/api/tasks", getTasks);
+app.post("/api/tasks", addTask);
+app.delete("/api/tasks/:id", deleteTask); // Assurez-vous que la route est correcte
+app.put("/api/tasks/:id", updateTask);
+
+// Gerer la table des utilisateurs
+app.get("/api/users", getAllUsers);
+app.post("/api/users", addUser);
+app.delete("/api/users/:id", deleteUser);
+app.put("/api/users/:id", updateUser);
+
+app.post('/api/register', register);
+app.post('/api/login', login);
 
 app.get("/", (req, res) => {
   res.send("Hello World!");

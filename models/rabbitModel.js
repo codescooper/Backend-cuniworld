@@ -3,8 +3,37 @@ const db = require("../db");
 // Récupérer la liste des lapins dans la base de données
 const getAllRabbits = async () => {
   try {
-    const result = await db.query("SELECT * FROM rabbit");
-    return result.rows;
+    const result = await db.query(`
+      SELECT r.id AS rabbit_id, r.name, r.color, r.gender, r.birth_date,
+             w.id AS weight_id, w.date, w.weight
+      FROM rabbit r
+      LEFT JOIN weights w ON r.id = w.rabbit_id
+    `);
+
+    const rabbitsMap = new Map();
+    
+    result.rows.forEach(row => {
+      const { rabbit_id, name, color, gender, birth_date, weight_id, date, weight } = row;
+
+      if (!rabbitsMap.has(rabbit_id)) {
+        rabbitsMap.set(rabbit_id, {
+          id: rabbit_id,
+          name,
+          color,
+          gender,
+          birth_date,
+          weightData: []
+        });
+      }
+
+      if (weight_id) {
+        rabbitsMap.get(rabbit_id).weightData.push({ id: weight_id, date, weight });
+      }
+    });
+
+    const rabbits = Array.from(rabbitsMap.values());
+
+    return rabbits;
   } catch (error) {
     console.error(
       "Erreur lors de la récupération des données des rabbit model:",

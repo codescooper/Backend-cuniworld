@@ -1,5 +1,6 @@
 const rabbitModel = require("../models/rabbitModel");
 
+// Récupérer la liste des lapins
 const fetchRabbits = async () => {
   try {
     const rabbits = await rabbitModel.getAllRabbits();
@@ -10,6 +11,7 @@ const fetchRabbits = async () => {
   }
 };
 
+// Ajouter un lapin
 const createRabbit = async (name, gender, birth_date, breed, color) => {
   try {
     const rabbit = await rabbitModel.addRabbit(
