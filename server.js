@@ -14,6 +14,7 @@ const {
   addTask,
   deleteTask,
   updateTask,
+  validateTask,
 } = require("./controllers/taskController");
 
 const {
@@ -43,8 +44,9 @@ app.post("/api/rabbits/:id/weights", addWeight);
 // Gerer la table des taches
 app.get("/api/tasks", getTasks);
 app.post("/api/tasks", addTask);
-app.delete("/api/tasks/:id", deleteTask); // Assurez-vous que la route est correcte
+app.delete("/api/tasks/:id", deleteTask); 
 app.put("/api/tasks/:id", updateTask);
+app.patch("/api/tasks/:id", validateTask);
 
 // Gerer la table des utilisateurs
 app.get("/api/users", getAllUsers);

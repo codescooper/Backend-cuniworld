@@ -16,8 +16,8 @@ const addTask = async (req, res) => {
         const task = await taskService.createTask(name, category, user_id);
         res.status(201).json(task);
     } catch (error) {
-        console.error("Erreur lors de l'ajout de la tache:", error);
-        res.status(500).send("Erreur lors de l'ajout de la tache");
+        console.error("Erreur lors de l'ajout de la tache controleur:", error);
+        res.status(500).send("Erreur lors de l'ajout de la tache au niveau du controleur");
     }
 };
 
@@ -51,4 +51,18 @@ const updateTask = async (req, res) => {
     }
 };
 
-module.exports = { getTasks, addTask, deleteTask, updateTask };
+const validateTask = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const task = await taskService.validateTask(id);
+        if (!task) {
+            return res.status(404).send("Tache non trouvée");
+        }
+        res.status(200).json(task);
+    } catch (error) {
+        console.error("Erreur lors de la validation de la tâche:", error);
+        res.status(500).send("Erreur lors de la validation de la tâche");
+    }
+};
+
+module.exports = { getTasks, addTask, deleteTask, updateTask, validateTask };

@@ -48,4 +48,15 @@ const updateTask = async (id, name, category) => {
     }
 };
 
-module.exports = { fetchTask, createTask, deleteTask, updateTask };
+// Valider une tache
+const validateTask = async (id) => {
+    try {
+        const task = await taskModel.validateTask(id);
+        return task;
+    } catch (error) {
+        console.error("Erreur lors de la validation de la tâche service:", error);
+        throw new Error("Erreur lors de la validation de la tâche service");
+    }
+};
+
+module.exports = { fetchTask, createTask, deleteTask, updateTask, validateTask };

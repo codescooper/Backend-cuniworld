@@ -71,4 +71,27 @@ const updateTask = async (id, name, category) => {
     }
 }
 
-module.exports = { getAllTasks, addTask, deleteTask, updateTask };
+// Valider une tache dans la base de données
+const validateTask = async (id) => {
+    try {
+        // Récupérer la tâche avant la mise à jour pour inspection
+        const beforeUpdate = await db.query("SELECT * FROM task WHERE id = $1", [id]);
+        console.log("Avant la mise à jour:", beforeUpdate.rows[0]);
+
+
+        const result = await db.query(
+            "UPDATE task SET validation = true WHERE id = $1 RETURNING *",
+            [id]
+        );
+        // Récupérer la tâche après la mise à jour pour inspection
+        console.log("Après la mise à jour:", result.rows[0]);
+
+        
+        return result.rows[0];
+    } catch (error) {
+        console.error("Erreur lors de la validation de la tâche dans la base de données:", error);
+        throw new Error("Erreur lors de la validation de la tâche dans la base de données");
+    }
+};
+
+module.exports = { getAllTasks, addTask, deleteTask, updateTask, validateTask };
