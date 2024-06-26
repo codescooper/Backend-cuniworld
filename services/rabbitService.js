@@ -72,11 +72,46 @@ const addWeight = async (rabbitId, date, weight) => {
   }
 };
 
+//recuperer les relations du lapin
+const getParentChildRelations = async () => {
+  try {
+    console.log('lancement du service');
+    const relations = await rabbitModel.getParentChildRelations();
+    console.log(relations);
+    return relations;
+  } catch (error) {
+    console.error('Erreur lors de la sélection des relations du lapin service:', error);
+    throw new Error('Erreur lors de la sélection des relations du lapin service');
+  }
+}
+
+// ajouter une relation au lapin
+const addParentChildRelation = async (rabbitId, parentRabbitId) => {
+  try {
+    return await rabbitModel.addParentChildRelation(rabbitId, parentRabbitId);
+  } catch (error) {
+    console.error('Erreur dans le service lors de l\'ajout de la relation:', error);
+    throw error;
+}}
+
+const deleteParentChildRelation = async (id) => {
+  try {
+    return await rabbitModel.deleteParentChildRelation(id);
+  } catch (error) {
+    console.error('Erreur dans le service lors de la suppression de la relation:', error);
+    throw error;
+  }
+}
+
+
 module.exports = { 
   fetchRabbits, 
   createRabbit, 
   removeRabbit, 
   updateRabbit, 
   getRabbitWeights, 
-  addWeight, 
+  addWeight,
+  getParentChildRelations,
+  addParentChildRelation,
+  deleteParentChildRelation
 };

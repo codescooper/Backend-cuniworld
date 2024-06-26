@@ -7,6 +7,9 @@ const {
   deleteRabbit,
   updateRabbit,
   addWeight,
+  addParentChildRelation,
+  deleteParentChildRelation,
+  getParentChildRelations
 } = require("./controllers/rabbitController");
 
 const {
@@ -60,6 +63,13 @@ app.post('/api/login', login);
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
+
+
+// Routes pour gérer les relations parent/enfant
+app.post('/api/links', addParentChildRelation);
+app.delete('/api/links/:id', deleteParentChildRelation);
+app.get('/api/links', getParentChildRelations);
+
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => {
